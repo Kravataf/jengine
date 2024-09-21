@@ -10,7 +10,7 @@ app.on('ready', function () {
   var prefsWindow = new BrowserWindow({
     width: 400,
     height: 400,
-    show: false
+    show: true
   })
   prefsWindow.loadURL('file://' + __dirname + '/prefs.html')
 
