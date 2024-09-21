@@ -20,14 +20,4 @@ app.on('ready', function () {
     else
       prefsWindow.show()
   });
-  //loadscript just loads scripts from urls.. can be used for libraries or smth
-  function loadScript(url) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.onload = () => resolve(url);
-        script.onerror = (error) => reject(`Failed to load script ${url}: ${error.message}`);
-        document.head.appendChild(script);
-    });
-  }
 })
