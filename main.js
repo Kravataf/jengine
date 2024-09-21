@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain} = require('electron')
+const {app, BrowserWindow, ipcMain, Menu} = require('electron')
 
 app.on('ready', function () {
   var mainWindow = new BrowserWindow({
@@ -20,4 +20,6 @@ app.on('ready', function () {
     else
       prefsWindow.show()
   });
+  //hide menu
+  Menu.setApplicationMenu(null)
 })
