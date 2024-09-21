@@ -27,17 +27,20 @@ const template = [
     {
         label: 'Edit',
         submenu: [
-            {role: 'undo'},
-            {role: 'redo'},
-            {type: 'separator'},
-            {role: 'cut'},
-            {role: 'copy'},
-            {role: 'paste'},
-            ...(isMac ? [
-                {role: 'pasteAndMatchStyle'},
-                {role: 'delete'},
-                {role: 'selectAll'},
-                {type: 'separator'},
-            ])
+            {
+                label: 'Undo',
+                click: async () => {
+                    //call func here :p
+                }
+            },
+            {
+                label: 'Redo',
+                click: async () => {
+                    //call func here :p
+                }
+            }
         ]
     }
+]
+
+module.exports.mainMenu = Menu.buildFromTemplate(template);
