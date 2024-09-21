@@ -89,7 +89,7 @@ const template = [
             {
                 label: 'Open Inspector',
                 click: async () => {
-                    win.webContents.openDevTools()
+                    webContents.openDevTools() //this shit doesnt fucking work
                 }
             }
         ]
