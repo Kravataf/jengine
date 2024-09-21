@@ -1,5 +1,7 @@
 const {app, BrowserWindow, ipcMain, Menu} = require('electron')
 
+const {mainMenu} = require("./menumaker")
+
 app.on('ready', function () {
   var mainWindow = new BrowserWindow({
     width: 800,
@@ -21,5 +23,5 @@ app.on('ready', function () {
       prefsWindow.show()
   });
   //hide menu
-  Menu.setApplicationMenu(null)
+  Menu.setApplicationMenu(mainMenu)
 })
