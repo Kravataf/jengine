@@ -1,0 +1,22 @@
+{
+  "name": "jengine",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kravataf/jengine.git"
+  },
+  "author": "kravataf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kravataf/jengine/issues"
+  },
+  "homepage": "https://github.com/Kravataf/jengine#readme",
+  "dependencies": {
+    "electron": "^32.1.2"
+  }
+}
