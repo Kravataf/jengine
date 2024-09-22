@@ -13,7 +13,7 @@ app.on('ready', function () {
     width: 400,
     height: 400,
     show: true
-  })
+  }) //this opens up preferences window :u
   prefsWindow.loadURL('file://' + __dirname + '/prefs.html')
 
   ipcMain.on('toggle-prefs', function () {
