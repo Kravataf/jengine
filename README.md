@@ -1,5 +1,20 @@
 # jengine
 
-simple "engine" im making using javascript, html, babylonjs and electron
+![jengine-logo-highres (1)](https://github.com/user-attachments/assets/855d40b6-5c30-44da-b06a-95f741a38e57)
 
-![New Project (68) (3) (1)](https://github.com/user-attachments/assets/b6024939-96bc-4a30-a9fc-0d66345cd643)
+jengine is definitely high-quality blazingly-fast open-source engine im making using html and javascript for absolutely no reason
+
+# installing
+
+once jengine reaches the point (if it ever does) that its actually usable ill update this text 🥶
+
+# contributing
+
+to clone this repo just do ```git clone https://github.com/Kravataf/jengine``` (i think)
+but youre also going to need to install dependecies (node.js & electron.js)
+
+node.js: https://nodejs.org/en
+
+electron: https://www.electronjs.org/
+
+also i recommend using vs code because thats what i made jengine in but i guess u can use pretty much and code editor
