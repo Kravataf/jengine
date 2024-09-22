@@ -91,6 +91,12 @@ const template = [
                 click: async () => {
                     webContents.openDevTools() //this shit doesnt fucking work
                 }
+            },
+            {
+                label: 'Open Preferences',
+                click: async () => {
+                    //call func
+                }
             }
         ]
     },
