@@ -2,6 +2,7 @@
     <head>
         <title>jengine</title>
         <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <div id="fps">0</div>
     </head>
     <body>
         <canvas id="renderCanvas" style="width: 100%; height: 100%;"></canvas>
@@ -33,5 +34,19 @@
         body {
             margin: 0;
         }
+        #fps {
+                position: absolute;
+                background-color: #1e1f22;
+                border: 0px solid #1e1f22;
+                text-align: center;
+                font-size: 16px;
+                color: #ffffff;
+                top: 15px;
+                right: 10px;
+                width: 60px;
+                height: 20px;
+                font-family: "Open Sans", sans-serif;
+                font: bolder;
+            }
     </style>
 </html>

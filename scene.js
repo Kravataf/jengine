@@ -3,7 +3,7 @@ var canvas = document.getElementById("renderCanvas");
     
 // Generate the Babylon.js engine
 var engine = new BABYLON.Engine(canvas, true);
-
+let divFps = document.getElementById("fps");
 // Create the scene
 var createScene = function () {
     var scene = new BABYLON.Scene(engine);
@@ -37,6 +37,7 @@ var scene = createScene();
 // Run the render loop
 engine.runRenderLoop(function () {
     scene.render();
+    divFps.innerHTML = engine.getFps().toFixed() + " fps";
 });
 
 // Resize the engine if the window is resized
