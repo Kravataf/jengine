@@ -1,5 +1,4 @@
 const {app, BrowserWindow, ipcMain, Menu} = require('electron')
-
 const {mainMenu} = require("./menumaker")
 
 app.on('ready', function () {

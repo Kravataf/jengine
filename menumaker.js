@@ -1,4 +1,5 @@
-const {app, Menu} = require('electron')
+const {app, Menu, ipcMain} = require('electron')
+
 
 const isMac = process.platform === 'darwin'
 
@@ -94,9 +95,7 @@ const template = [
             },
             {
                 label: 'Open Preferences',
-                click: async () => {
-                    //call func
-                }
+                //
             }
         ]
     },
