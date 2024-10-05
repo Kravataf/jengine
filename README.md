@@ -4,6 +4,8 @@
 
 jengine is definitely high-quality blazingly-fast open-source engine im making using html and javascript for absolutely no reason
 
+it was made using electron and webgl
+
 # installing
 
 once jengine reaches the point (if it ever does) that its actually usable ill update this text 🥶
