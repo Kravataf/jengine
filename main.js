@@ -11,7 +11,7 @@ app.on('ready', function () {
   var prefsWindow = new BrowserWindow({
     width: 400,
     height: 400,
-    show: true
+    show: false
   }) //this opens up preferences window :u
   prefsWindow.loadURL('file://' + __dirname + '/prefs.html')
 

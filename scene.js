@@ -129,7 +129,7 @@ function rotateY(m, angle) {
 var time_old = 0;
 var animate = function(time) {
    var dt = time-time_old;
-   rotateZ(mov_matrix, dt*0.005);//time
+   rotateZ(mov_matrix, dt*0.0001);//time
    rotateY(mov_matrix, dt*0.002);
    rotateX(mov_matrix, dt*0.003);
    time_old = time;
