@@ -22,6 +22,6 @@ app.on('ready', function () {
       prefsWindow.show()
   });
   //change to custom menu
-  Menu.setApplicationMenu(mainMenu)
+  Menu.setApplicationMenu(null) // Menu.setApplicationMenu(mainMenu)
 
 })
