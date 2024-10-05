@@ -1,6 +1,16 @@
 //create canvas
 var canvas = document.getElementById('canvas');
 gl = canvas.getContext('webgl2');
+
+function resizeCanvas() {
+   canvas.width = window.innerWidth;
+   canvas.height = window.innerHeight;
+ }
+ 
+window.addEventListener("resize", resizeCanvas);
+ 
+resizeCanvas();
+
 //storing geometry
 var vertices = [
    -1,-1,-1, 1,-1,-1, 1, 1,-1, -1, 1,-1,
