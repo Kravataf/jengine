@@ -20,3 +20,7 @@ node.js: https://nodejs.org/en
 electron: https://www.electronjs.org/
 
 also i recommend using vs code because thats what i made jengine in but i guess u can use pretty much and code editor.. to also run jengine press ```ctrl + shift + ` ``` (in vs code) to open terminal then type ```npm start``` and hit enter.. jengine should open now. after youre done testing make sure to close the terminal because it might not launch again for some reason!! for doing PRs or commits i use github desktop
+
+# screenshots
+
+![Desktop Screenshot 2024 10 05 - 21 18 21 87](https://github.com/user-attachments/assets/4e77b1e6-41f9-407e-9c38-896338b0c8aa)
