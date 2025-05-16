@@ -1,0 +1,14 @@
+{
+  "name": "jengine",
+  "version": "0.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Kravataf",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^36.2.1"
+  }
+}
