@@ -1,3 +1,4 @@
+// create window
 const { app, BrowserWindow } = require('electron')
 const createWindow = () => {
     const win = new BrowserWindow({
@@ -8,7 +9,6 @@ const createWindow = () => {
     win.loadFile('index.html')
     win.setMenu(null)
   }
-
 app.whenReady().then(() => {
   createWindow()
 })
