@@ -1,6 +1,8 @@
 function drawLine(x1, y1, x2, y2) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
+    ctx.strokeStyle = '#FFF';
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
@@ -16,13 +18,21 @@ var cameraY = 0
 var cameraZ = 0
 
 function updateFrame() {
-    // ctx.clearRect()
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     for(i in x) {
-    for(j in x) {
-        for(k in x) {
-            drawLine(x[i]+cameraX, y[i]+cameraY, x[j]+cameraX, y[j]+cameraY)
+        for(j in x) {
+            for(k in x) {
+                drawLine(x[i]+cameraX, y[i]+cameraY, x[j]+cameraX, y[j]+cameraY)
             }
         }
     }
 }
+
 updateFrame();
+
+document.body.addEventListener("keydown", (ev) => {
+    if (ev.key == "d") {
+        Electron.Debugger
+    }
+})

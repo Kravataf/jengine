@@ -8,6 +8,15 @@ const createWindow = () => {
   
     win.loadFile('index.html')
     win.setMenu(null)
+    // F12 => open console
+    win.webContents.on('before-input-event', (_, input) => {
+        if (input.type === 'keyDown' && input.key === 'F12') {
+          win.webContents.isDevToolsOpened()
+            ? win.webContents.closeDevTools()
+            : win.webContents.openDevTools({ mode: 'right' });
+        }
+    });
+
   }
 app.whenReady().then(() => {
   createWindow()
