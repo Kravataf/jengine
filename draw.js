@@ -7,8 +7,22 @@ function drawLine(x1, y1, x2, y2) {
     ctx.stroke();
 }
 
-for(let i = 0; i < 100; i++) { 
-    for(let j = 0; j < 100; j++) {
-        drawLine(0,0,i,j);
+var x = [ 0, 50, 0, 50 ]
+var y = [ 0, 0, 50, 50 ]
+var z = [ 0, 50, 0, 50 ]
+
+var cameraX = 0
+var cameraY = 0
+var cameraZ = 0
+
+function updateFrame() {
+    // ctx.clearRect()
+    for(i in x) {
+    for(j in x) {
+        for(k in x) {
+            drawLine(x[i]+cameraX, y[i]+cameraY, x[j]+cameraX, y[j]+cameraY)
+            }
+        }
     }
 }
+updateFrame();
