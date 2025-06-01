@@ -33,10 +33,16 @@ function updateFrame() {
 requestAnimationFrame(updateFrame);
 
 document.body.addEventListener("keydown", (ev) => {
-    if (ev.key == "d") {
-        cameraX += 2
+    if (ev.key == "w") {
+        cameraY -= 2
     }
     if (ev.key == "a") {
         cameraX -= 2
+    }
+    if (ev.key == "s") {
+        cameraY += 2
+    }
+    if (ev.key == "d") {
+        cameraX += 2
     }
 })
