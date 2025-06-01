@@ -18,6 +18,7 @@ var cameraY = 0
 var cameraZ = 0
 
 function updateFrame() {
+    cameraX += 1
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     for(i in x) {
@@ -27,9 +28,10 @@ function updateFrame() {
             }
         }
     }
+    requestAnimationFrame(updateFrame);
 }
 
-updateFrame();
+requestAnimationFrame(updateFrame);
 
 document.body.addEventListener("keydown", (ev) => {
     if (ev.key == "d") {
