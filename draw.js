@@ -1,7 +1,3 @@
-const CAMERA_DISTANCE = 300;
-const FOV = Math.PI / 3; // 60
-const PROJECTION_PLANE_DISTANCE = CAMERA_DISTANCE / Math.tan(FOV / 2);
-
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -36,12 +32,6 @@ for (let i = 0; i < gridSize; i++) {
         }
     }
 }
-
-var cameraX = 0;
-var cameraY = 0;
-var cameraZ = 0;
-var rotationY = 0;
-var rotationX = 0;
 
 function drawLine(x1, y1, x2, y2, color, lineWidth) {
             ctx.strokeStyle = color;
@@ -90,30 +80,26 @@ function updateFrame() {
         if (p1 && p2) {
             const avgZ = (p1.z + p2.z) / 2;
             const alpha = Math.max(0.1, Math.min(1, PROJECTION_PLANE_DISTANCE / avgZ * 0.8));
-            const lineWidth = Math.max(0.5, 2 * (PROJECTION_PLANE_DISTANCE / avgZ));
+            const lineWidth = Math.max(0.5, 1 * (PROJECTION_PLANE_DISTANCE / avgZ));
             drawLine(p1.x, p1.y, p2.x, p2.y, `rgba(255, 255, 255, ${alpha})`, lineWidth);
         }
     });
+
+    // pointerlock NOT FINISHED
+    if (document.pointerLockElement === canvas) {
+        // locked
+        function mouseMovement(e) {
+            rotationY = e.movementX
+        }
+        document.addEventListener("mousemove", mouseMovement);
+    } else {
+        // unlocked
+    }
 
     requestAnimationFrame(updateFrame);
 }
 
 requestAnimationFrame(updateFrame);
-
-document.body.addEventListener("keydown", (ev) => {
-    if (ev.key == "w") {
-        cameraY -= 2
-    }
-    if (ev.key == "a") {
-        cameraX -= 2
-    }
-    if (ev.key == "s") {
-        cameraY += 2
-    }
-    if (ev.key == "d") {
-        cameraX += 2
-    }
-})
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
@@ -147,3 +133,42 @@ function createRotationXMatrix(angle) {
         [0, s, c]
     ];
 }
+
+// CAMERA CONTROLLER
+   
+const CAMERA_DISTANCE = 300;
+const FOV = Math.PI / 3; // 60
+const PROJECTION_PLANE_DISTANCE = CAMERA_DISTANCE / Math.tan(FOV / 2);
+
+const MOUSE_SENSITIVITY = 0.002;
+
+var cameraX = 0;
+var cameraY = 0;
+var cameraZ = 0;
+var rotationY = 0;
+var rotationX = 0;
+
+document.body.addEventListener("keydown", (ev) => {
+    if (ev.key == "e") {
+        cameraY -= 2
+    }
+    if (ev.key == "a") {
+        rotationY += 0.02
+    }
+    if (ev.key == "q") {
+        cameraY += 2
+    }
+    if (ev.key == "d") {
+        rotationY -= 0.02
+    }
+    if (ev.key == "w") {
+        cameraZ += 2
+    }
+    if (ev.key == "s") {
+        cameraZ -= 2
+    }
+})
+
+canvas.addEventListener("click", async () => {
+  await canvas.requestPointerLock();
+});
