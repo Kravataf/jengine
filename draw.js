@@ -16,11 +16,12 @@ class Point3D {
 let vertices = [];
 let edges = [];
 const gridSize = 20;
+const step = 10;
 for(let i = 0; i < gridSize; i++) { 
     for(let j = 0; j < gridSize; j++) {
-        const x = i * 10 - gridSize/2;
-        const z = j * 10 - gridSize/2;
-        const y = Math.sin(i)*10
+        const x = i * step - gridSize/2;
+        const z = j * step - gridSize/2;
+        const y = Math.sin(i)*step
         vertices.push(new Point3D(x, y, z));
     }
 }
