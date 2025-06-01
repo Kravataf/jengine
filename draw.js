@@ -18,7 +18,6 @@ var cameraY = 0
 var cameraZ = 0
 
 function updateFrame() {
-    cameraX += 1
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     for(i in x) {
@@ -35,6 +34,9 @@ requestAnimationFrame(updateFrame);
 
 document.body.addEventListener("keydown", (ev) => {
     if (ev.key == "d") {
-        Electron.Debugger
+        cameraX += 2
+    }
+    if (ev.key == "a") {
+        cameraX -= 2
     }
 })
