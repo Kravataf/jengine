@@ -85,11 +85,11 @@ function updateFrame() {
         }
     });
 
-    // pointerlock NOT FINISHED
     if (document.pointerLockElement === canvas) {
         // locked
         function mouseMovement(e) {
-            rotationY = e.movementX
+            rotationY -= e.movementX * MOUSE_SENSITIVITY
+            rotationX += e.movementY * MOUSE_SENSITIVITY
         }
         document.addEventListener("mousemove", mouseMovement);
     } else {
@@ -140,7 +140,7 @@ const CAMERA_DISTANCE = 300;
 const FOV = Math.PI / 3; // 60
 const PROJECTION_PLANE_DISTANCE = CAMERA_DISTANCE / Math.tan(FOV / 2);
 
-const MOUSE_SENSITIVITY = 0.002;
+const MOUSE_SENSITIVITY = 0.0002;
 
 var cameraX = 0;
 var cameraY = 0;
