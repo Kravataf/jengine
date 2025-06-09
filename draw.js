@@ -11,16 +11,19 @@ class Point3D {
 
 let vertices = [];
 let edges = [];
-const gridSize = 20;
+
+const gridSize = 30;
 const step = 10;
+const amplitude = 15;
 for(let i = 0; i < gridSize; i++) { 
     for(let j = 0; j < gridSize; j++) {
         const x = i * step - gridSize/2;
         const z = j * step - gridSize/2;
-        const y = Math.sin(i)*step
+        const y = Math.sin(i * 0.5 + j * 0.3) * amplitude; 
         vertices.push(new Point3D(x, y, z));
     }
 }
+
 for (let i = 0; i < gridSize; i++) {
     for (let j = 0; j < gridSize; j++) {
         const currentIdx = i * gridSize + j;
@@ -43,59 +46,87 @@ function drawLine(x1, y1, x2, y2, color, lineWidth) {
 }
 
 function updateFrame() {
+
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const rotYMatrix = createRotationYMatrix(rotationY);
-    const rotXMatrix = createRotationXMatrix(rotationX);
-    
+    const view = createViewMatrix(cameraX, cameraY, cameraZ, rotationX, rotationY);
+
     const transformedAndProjectedVertices = vertices.map(p => {
-        let rotatedPoint = multiplyMatrixVector(rotYMatrix, [p.x, p.y, p.z]);
-        rotatedPoint = multiplyMatrixVector(rotXMatrix, rotatedPoint);
 
-        const translatedX = rotatedPoint[0] - cameraX;
-        const translatedY = rotatedPoint[1] - cameraY;
-        const translatedZ = rotatedPoint[2] - cameraZ + CAMERA_DISTANCE;
+        let transformedPoint = multiplyMatrixVector(view.rotation, [p.x, p.y, p.z]);
+        
+        transformedPoint[0] += view.translation[0];
+        transformedPoint[1] += view.translation[1];
+        transformedPoint[2] += view.translation[2];
 
-        if (translatedZ <= 0) {
+        const x_cam = transformedPoint[0];
+        const y_cam = transformedPoint[1];
+        const z_cam = transformedPoint[2];
+
+        if (z_cam <= 1) {
             return null;
         }
 
-        const scale = PROJECTION_PLANE_DISTANCE / translatedZ;
-        const projectedX = translatedX * scale;
-        const projectedY = translatedY * scale;
+        const projectedX = (x_cam / z_cam) * PROJECTION_PLANE_DISTANCE;
+        const projectedY = (y_cam / z_cam) * PROJECTION_PLANE_DISTANCE;
 
         const screenX = projectedX + canvas.width / 2;
         const screenY = projectedY + canvas.height / 2;
 
-        return { x: screenX, y: screenY, z: translatedZ };
+        return { x: screenX, y: screenY, z: z_cam };
     });
 
     edges.forEach(edge => {
         const p1 = transformedAndProjectedVertices[edge[0]];
         const p2 = transformedAndProjectedVertices[edge[1]];
-        
+
         if (p1 && p2) {
+
             const avgZ = (p1.z + p2.z) / 2;
+            
             const alpha = Math.max(0.1, Math.min(1, PROJECTION_PLANE_DISTANCE / avgZ * 0.8));
+            
             const lineWidth = Math.max(0.5, 1 * (PROJECTION_PLANE_DISTANCE / avgZ));
+            
             drawLine(p1.x, p1.y, p2.x, p2.y, `rgba(255, 255, 255, ${alpha})`, lineWidth);
         }
     });
 
+
     if (document.pointerLockElement === canvas) {
-        // locked
-        function mouseMovement(e) {
-            rotationY -= e.movementX * MOUSE_SENSITIVITY
-            rotationX += e.movementY * MOUSE_SENSITIVITY
+
+        const clickPrompt = document.getElementById("clickPrompt");
+        if (clickPrompt) {
+            clickPrompt.style.display = 'none'; 
         }
-        document.addEventListener("mousemove", mouseMovement);
+
+        if (!pointerLock) {
+            pointerLock = (e) => {
+
+                rotationY += e.movementX * MOUSE_SENSITIVITY; 
+                
+                rotationX -= e.movementY * MOUSE_SENSITIVITY; 
+
+                rotationX = Math.max(-Math.PI / 2 + 0.01, Math.min(Math.PI / 2 - 0.01, rotationX));
+            };
+            document.addEventListener("mousemove", pointerLock);
+        }
     } else {
-        // unlocked
+        const clickPrompt = document.getElementById("clickPrompt");
+        if (clickPrompt) {
+            clickPrompt.style.display = 'block'; 
+        }
+
+        if (pointerLock) {
+            document.removeEventListener("mousemove", pointerLock);
+            pointerLock = null;
+        }
     }
 
+    // Request the next animation frame to continue the rendering loop.
     requestAnimationFrame(updateFrame);
 }
 
@@ -134,40 +165,103 @@ function createRotationXMatrix(angle) {
     ];
 }
 
+function invertMatrix(matrix) {
+    return [
+        [matrix[0][0], matrix[1][0], matrix[2][0]],
+        [matrix[0][1], matrix[1][1], matrix[2][1]],
+        [matrix[0][2], matrix[1][2], matrix[2][2]]
+    ];
+}
+
+function multiplyMatrices(m1, m2) {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+        result[i] = [];
+        for (let j = 0; j < 3; j++) {
+            result[i][j] = m1[i][0] * m2[0][j] + m1[i][1] * m2[1][j] + m1[i][2] * m2[2][j];
+        }
+    }
+    return result;
+}
+
+function createViewMatrix(cameraX, cameraY, cameraZ, rotationX, rotationY) {
+
+    const rotXMatrix = createRotationXMatrix(-rotationX);
+    const rotYMatrix = createRotationYMatrix(-rotationY);
+
+    const cameraRotationMatrix = multiplyMatrices(rotXMatrix, rotYMatrix);
+
+    const translatedCameraPos = multiplyMatrixVector(cameraRotationMatrix, [-cameraX, -cameraY, -cameraZ]);
+
+    const viewMatrix = [
+        [cameraRotationMatrix[0][0], cameraRotationMatrix[0][1], cameraRotationMatrix[0][2], translatedCameraPos[0]],
+        [cameraRotationMatrix[1][0], cameraRotationMatrix[1][1], cameraRotationMatrix[1][2], translatedCameraPos[1]],
+        [cameraRotationMatrix[2][0], cameraRotationMatrix[2][1], cameraRotationMatrix[2][2], translatedCameraPos[2]],
+        [0, 0, 0, 1]
+    ];
+
+    return {
+        rotation: cameraRotationMatrix,
+        translation: translatedCameraPos
+    };
+}
+
 // CAMERA CONTROLLER
    
 const CAMERA_DISTANCE = 300;
 const FOV = Math.PI / 3; // 60
 const PROJECTION_PLANE_DISTANCE = CAMERA_DISTANCE / Math.tan(FOV / 2);
 
-const MOUSE_SENSITIVITY = 0.0002;
+const MOUSE_SENSITIVITY = 0.002;
 
 var cameraX = 0;
 var cameraY = 0;
 var cameraZ = 0;
 var rotationY = 0;
 var rotationX = 0;
+let pointerLock = null; 
 
 document.body.addEventListener("keydown", (ev) => {
-    if (ev.key == "e") {
-        cameraY -= 2
+
+    const cosY = Math.cos(rotationY);
+    const sinY = Math.sin(rotationY);
+    const cosX = Math.cos(rotationX);
+    const sinX = Math.sin(rotationX);
+
+    const forwardX = sinY * cosX;
+    const forwardY = -sinX;
+    const forwardZ = cosY * cosX;
+
+    const rightX = cosY;
+    const rightZ = -sinY;
+
+    const moveSpeed = 5;
+
+    if (ev.key === "w") {
+        cameraX += forwardX * moveSpeed;
+        cameraY += forwardY * moveSpeed;
+        cameraZ += forwardZ * moveSpeed;
     }
-    if (ev.key == "a") {
-        rotationY += 0.02
+    if (ev.key === "s") {
+        cameraX -= forwardX * moveSpeed;
+        cameraY -= forwardY * moveSpeed;
+        cameraZ -= forwardZ * moveSpeed;
     }
-    if (ev.key == "q") {
-        cameraY += 2
+    if (ev.key === "a") {
+        cameraX -= rightX * moveSpeed;
+        cameraZ -= rightZ * moveSpeed;
     }
-    if (ev.key == "d") {
-        rotationY -= 0.02
+    if (ev.key === "d") {
+        cameraX += rightX * moveSpeed;
+        cameraZ += rightZ * moveSpeed;
     }
-    if (ev.key == "w") {
-        cameraZ += 2
+    if (ev.key === "q") {
+        cameraY += moveSpeed;
     }
-    if (ev.key == "s") {
-        cameraZ -= 2
+    if (ev.key === "e") {
+        cameraY -= moveSpeed;
     }
-})
+});
 
 canvas.addEventListener("click", async () => {
   await canvas.requestPointerLock();
