@@ -132,6 +132,8 @@ function updateFrame() {
 
 requestAnimationFrame(updateFrame);
 
+let deltaTime = 1;
+
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -238,28 +240,28 @@ document.body.addEventListener("keydown", (ev) => {
     const moveSpeed = 5;
 
     if (ev.key === "w") {
-        cameraX += forwardX * moveSpeed;
-        cameraY += forwardY * moveSpeed;
-        cameraZ += forwardZ * moveSpeed;
+        cameraX += forwardX * moveSpeed * deltaTime;
+        cameraY += forwardY * moveSpeed * deltaTime;
+        cameraZ += forwardZ * moveSpeed * deltaTime;
     }
     if (ev.key === "s") {
-        cameraX -= forwardX * moveSpeed;
-        cameraY -= forwardY * moveSpeed;
-        cameraZ -= forwardZ * moveSpeed;
+        cameraX -= forwardX * moveSpeed * deltaTime;
+        cameraY -= forwardY * moveSpeed * deltaTime;
+        cameraZ -= forwardZ * moveSpeed * deltaTime;
     }
     if (ev.key === "a") {
-        cameraX -= rightX * moveSpeed;
-        cameraZ -= rightZ * moveSpeed;
+        cameraX -= rightX * moveSpeed * deltaTime;
+        cameraZ -= rightZ * moveSpeed * deltaTime;
     }
     if (ev.key === "d") {
-        cameraX += rightX * moveSpeed;
-        cameraZ += rightZ * moveSpeed;
+        cameraX += rightX * moveSpeed * deltaTime;
+        cameraZ += rightZ * moveSpeed * deltaTime;
     }
     if (ev.key === "q") {
-        cameraY += moveSpeed;
+        cameraY += moveSpeed * deltaTime;
     }
     if (ev.key === "e") {
-        cameraY -= moveSpeed;
+        cameraY -= moveSpeed * deltaTime;
     }
 });
 
