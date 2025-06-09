@@ -132,8 +132,6 @@ function updateFrame() {
 
 requestAnimationFrame(updateFrame);
 
-let deltaTime = 1;
-
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -223,6 +221,22 @@ var rotationY = 0;
 var rotationX = 0;
 let pointerLock = null; 
 
+let deltaTime = 0;
+let lastTimestamp = 0;
+
+function elapsedTime(timestamp) {
+  if (lastTimestamp === 0) {
+    lastTimestamp = timestamp;
+  }
+
+  deltaTime = (timestamp - lastTimestamp) / 1000; // milliseconds
+  lastTimestamp = timestamp;
+
+  requestAnimationFrame(elapsedTime);
+}
+
+requestAnimationFrame(elapsedTime);
+
 document.body.addEventListener("keydown", (ev) => {
 
     const cosY = Math.cos(rotationY);
@@ -237,31 +251,31 @@ document.body.addEventListener("keydown", (ev) => {
     const rightX = cosY;
     const rightZ = -sinY;
 
-    const moveSpeed = 5;
+    var moveSpeed = 50 * deltaTime;
 
     if (ev.key === "w") {
-        cameraX += forwardX * moveSpeed * deltaTime;
-        cameraY += forwardY * moveSpeed * deltaTime;
-        cameraZ += forwardZ * moveSpeed * deltaTime;
+        cameraX += forwardX * moveSpeed;
+        cameraY += forwardY * moveSpeed;
+        cameraZ += forwardZ * moveSpeed;
     }
     if (ev.key === "s") {
-        cameraX -= forwardX * moveSpeed * deltaTime;
-        cameraY -= forwardY * moveSpeed * deltaTime;
-        cameraZ -= forwardZ * moveSpeed * deltaTime;
+        cameraX -= forwardX * moveSpeed;
+        cameraY -= forwardY * moveSpeed;
+        cameraZ -= forwardZ * moveSpeed;
     }
     if (ev.key === "a") {
-        cameraX -= rightX * moveSpeed * deltaTime;
-        cameraZ -= rightZ * moveSpeed * deltaTime;
+        cameraX -= rightX * moveSpeed;
+        cameraZ -= rightZ * moveSpeed;
     }
     if (ev.key === "d") {
-        cameraX += rightX * moveSpeed * deltaTime;
-        cameraZ += rightZ * moveSpeed * deltaTime;
+        cameraX += rightX * moveSpeed;
+        cameraZ += rightZ * moveSpeed;
     }
     if (ev.key === "q") {
-        cameraY += moveSpeed * deltaTime;
+        cameraY += moveSpeed;
     }
     if (ev.key === "e") {
-        cameraY -= moveSpeed * deltaTime;
+        cameraY -= moveSpeed;
     }
 });
 
